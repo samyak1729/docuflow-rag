@@ -1,10 +1,14 @@
-from langchain_community.document_loaders import TextLoader
+from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import os
 
 def load_doc(file_path):
     try:
-        if file_path.endswith(".md"):
+        if file_path.endswith(".pdf"):
+            return PyPDFLoader(file_path).load()
+        elif file_path.endswith(".docx"):
+            return Docx2txtLoader(file_path).load()
+        elif file_path.endswith(".md"):
             return TextLoader(file_path).load()
         return None
     except Exception as e:
